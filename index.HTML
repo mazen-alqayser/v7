@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V7 STORE - من السودان للعالم</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    cream: { 50:'#FFFDFB',100:'#FFF8F0',200:'#FFF0E0',300:'#F5E6D3',400:'#EDE0D0',500:'#E0D0C0',600:'#D4C0A8' },
+                    sand: { 50:'#FAF5EF',100:'#F0E6D8',200:'#E0D0B8',300:'#C4A76C',400:'#B8944C',500:'#9B7B4C',600:'#7A5F35',700:'#5C4528',800:'#3D2B1F',900:'#2C1810' }
+                },
+                fontFamily: { cairo:['Cairo','sans-serif'] }
+            }
+        }
+    }
+    </script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Cairo',sans-serif;overflow-x:hidden}
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:#FFF8F0}
+        ::-webkit-scrollbar-thumb{background:#C4A76C;border-radius:3px}
+        ::-webkit-scrollbar-thumb:hover{background:#9B7B4C}
+
+        /* === ANIMATIONS === */
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+        @keyframes floatSlow{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+        @keyframes pulseGlow{0%,100%{box-shadow:0 0 40px rgba(196,167,108,0.3),0 10px 40px rgba(0,0,0,0.15)}50%{box-shadow:0 0 70px rgba(196,167,108,0.55),0 10px 40px rgba(0,0,0,0.25)}}
+        @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+        @keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        @keyframes marqueeRtl{0%{transform:translateX(0)}100%{transform:translateX(50%)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(0.85) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
+        @keyframes msgIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes bounceSub{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        @keyframes borderGlow{0%,100%{border-color:rgba(196,167,108,0.2)}50%{border-color:rgba(196,167,108,0.5)}}
+        @keyframes textReveal{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+        @keyframes ripple{0%{transform:scale(0);opacity:0.5}100%{transform:scale(4);opacity:0}}
+        @keyframes slideRight{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideLeft{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes rotateIn{from{opacity:0;transform:rotate(-10deg) scale(0.9)}to{opacity:1;transform:rotate(0) scale(1)}}
+        @keyframes parallaxFloat{0%,100%{transform:translateY(0) translateX(0)}25%{transform:translateY(-8px) translateX(4px)}50%{transform:translateY(-4px) translateX(-4px)}75%{transform:translateY(-12px) translateX(2px)}}
+
+        .anim-in{animation:fadeInUp 0.9s ease-out forwards;opacity:0}
+        .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}.d5{animation-delay:.5s}.d6{animation-delay:.6s}.d7{animation-delay:.7s}.d8{animation-delay:.8s}.d9{animation-delay:.9s}.d10{animation-delay:1s}
+
+        .scroll-anim{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
+        .scroll-anim.visible{opacity:1;transform:translateY(0)}
+        .scroll-anim-delay-1{transition-delay:.1s}.scroll-anim-delay-2{transition-delay:.2s}.scroll-anim-delay-3{transition-delay:.3s}.scroll-anim-delay-4{transition-delay:.4s}.scroll-anim-delay-5{transition-delay:.5s}
+
+        /* === BACKGROUNDS === */
+        .store-bg{
+            background-image:url('https://github.com/mazen-alqayser/a/blob/main/WhatsApp%20Image%202026-04-19%20at%203.38.51%20PM.jpeg?raw=true');
+            background-size:cover;background-position:center;background-attachment:fixed;background-repeat:no-repeat;
+        }
+        .hero-overlay{background:linear-gradient(180deg,rgba(44,24,16,0.7) 0%,rgba(44,24,16,0.3) 35%,rgba(44,24,16,0.45) 65%,rgba(44,24,16,0.85) 100%)}
+        .section-overlay{background:linear-gradient(180deg,rgba(255,248,240,0.96) 0%,rgba(255,248,240,0.92) 50%,rgba(255,248,240,0.96) 100%)}
+        .section-overlay-dark{background:linear-gradient(180deg,rgba(44,24,16,0.93) 0%,rgba(44,24,16,0.88) 50%,rgba(44,24,16,0.93) 100%)}
+        .section-overlay-warm{background:linear-gradient(135deg,rgba(240,230,216,0.97),rgba(255,248,240,0.95))}
+
+        /* === EFFECTS === */
+        .cta-main{background:linear-gradient(135deg,#C4A76C,#9B7B4C,#7A5F35);animation:pulseGlow 2.5s infinite;transition:all 0.3s ease}
+        .cta-main:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 0 80px rgba(196,167,108,0.6),0 15px 50px rgba(0,0,0,0.3)}
+        .glass-card{background:rgba(255,248,240,0.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(196,167,108,0.2);transition:all 0.4s ease}
+        .glass-card:hover{background:rgba(255,248,240,0.8);border-color:rgba(196,167,108,0.45);transform:translateY(-8px);box-shadow:0 25px 50px rgba(92,69,40,0.12)}
+        .dark-glass{background:rgba(44,24,16,0.45);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(196,167,108,0.12)}
+        .shimmer-text{background:linear-gradient(90deg,#C4A76C 0%,#F5E6D3 25%,#C4A76C 50%,#F5E6D3 75%,#C4A76C 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+        .pattern-bg{background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='rgba(196,167,108,0.05)' stroke-width='1'/%3E%3C/svg%3E")}
+        .decorative-dot{background:radial-gradient(circle,rgba(196,167,108,0.12) 0%,transparent 70%)}
+        .btn-sand{background:linear-gradient(135deg,#9B7B4C,#7A5F35);color:#FFF8F0;transition:all 0.3s ease;box-shadow:0 4px 18px rgba(122,95,53,0.3)}
+        .btn-sand:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(122,95,53,0.45)}
+        .btn-outline-sand{border:1.5px solid rgba(196,167,108,0.6);color:#C4A76C;background:transparent;transition:all 0.3s ease}
+        .btn-outline-sand:hover{background:rgba(196,167,108,0.12);transform:translateY(-2px);border-color:#C4A76C}
+        .feature-icon-wrap{background:linear-gradient(135deg,rgba(196,167,108,0.15),rgba(196,167,108,0.04));border:1px solid rgba(196,167,108,0.2)}
+        .whatsapp-float{animation:bounceSub 2s ease-in-out infinite}
+        .whatsapp-float:hover{animation:none;transform:scale(1.12)}
+        .nav-scrolled{background:rgba(255,248,240,0.88)!important;backdrop-filter:blur(24px)!important;-webkit-backdrop-filter:blur(24px)!important;box-shadow:0 4px 35px rgba(92,69,40,0.08)!important}
+        .nav-scrolled .nav-link{color:#3D2B1F!important}
+        .nav-scrolled .nav-logo-text{color:#3D2B1F!important}
+        .nav-scrolled .lang-btn{border-color:#C4A76C!important;color:#9B7B4C!important}
+        .marquee-track{animation:marqueeRtl 35s linear infinite}
+        .message-item{animation:msgIn 0.7s ease-out forwards;opacity:0}
+        .counter-num{font-variant-numeric:tabular-nums}
+        .glow-border{animation:borderGlow 3s ease-in-out infinite}
+        .parallax-decor{animation:parallaxFloat 12s ease-in-out infinite}
+
+        /* === POPUP === */
+        .popup-overlay{opacity:0;pointer-events:none;transition:opacity 0.35s ease}
+        .popup-overlay.active{opacity:1;pointer-events:all}
+        .popup-content{transform:scale(0.88) translateY(25px);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+        .popup-overlay.active .popup-content{transform:scale(1) translateY(0)}
+
+        /* === RESPONSIVE === */
+        @media(max-width:1024px){
+            .hero-title{font-size:2.5rem!important;line-height:1.2!important}
+            .hero-sub{font-size:1rem!important}
+        }
+        @media(max-width:768px){
+            .hero-title{font-size:2rem!important;line-height:1.15!important}
+            .hero-sub{font-size:.95rem!important}
+            .cta-main{padding:14px 24px!important;font-size:.95rem!important}
+            .logo-hero{width:100px!important;height:100px!important}
+            .logo-hero img{width:100px!important;height:100px!important}
+            .section-pad{padding:4rem 0!important}
+            .grid-resp{grid-template-columns:1fr!important}
+            .hide-mobile{display:none!important}
+        }
+        @media(max-width:480px){
+            .hero-title{font-size:1.65rem!important}
+            .cta-main{padding:12px 18px!important;font-size:.85rem!important;gap:6px!important}
+            .logo-hero{width:80px!important;height:80px!important}
+            .logo-hero img{width:80px!important;height:80px!important}
+        }
+        @media(min-width:769px) and (max-width:1024px){
+            .logo-hero{width:130px!important;height:130px!important}
+            .logo-hero img{width:130px!important;height:130px!important}
+        }
+    </style>
+</head>
+<body class="font-cairo bg-cream-100 text-sand-800">
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" style="background:transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2 sm:gap-3">
+                <img src="https://github.com/mazen-alqayser/a/blob/main/IMG_0406.PNG?raw=true" alt="V7 STORE" class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl object-contain">
+                <span class="nav-logo-text text-cream-100 font-bold text-base sm:text-lg transition-colors duration-300">V7 STORE</span>
+            </div>
+            <div class="hidden lg:flex items-center gap-6 xl:gap-8">
+                <a href="#features" class="nav-link text-cream-200 hover:text-cream-100 text-sm font-medium transition-colors" data-ar="المميزات" data-en="Features">المميزات</a>
+                <a href="#support" class="nav-link text-cream-200 hover:text-cream-100 text-sm font-medium transition-colors" data-ar="من ندعم" data-en="Who We Support">من ندعم</a>
+                <a href="#products" class="nav-link text-cream-200 hover:text-cream-100 text-sm font-medium transition-colors" data-ar="المنتجات" data-en="Products">المنتجات</a>
+                <a href="#howto" class="nav-link text-cream-200 hover:text-cream-100 text-sm font-medium transition-colors" data-ar="كيف تبدأ" data-en="How to Start">كيف تبدأ</a>
+                <a href="#testimonials" class="nav-link text-cream-200 hover:text-cream-100 text-sm font-medium transition-colors" data-ar="آراء العملاء" data-en="Testimonials">آراء العملاء</a>
+                <a href="#motivate" class="nav-link text-cream-200 hover:text-cream-100 text-sm font-medium transition-colors" data-ar="رسائلنا" data-en="Messages">رسائلنا</a>
+                <button onclick="openPopup('aboutPopup')" class="nav-link text-cream-200 hover:text-cream-100 text-sm font-medium transition-colors cursor-pointer" data-ar="عن المتجر" data-en="About">عن المتجر</button>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button onclick="toggleLang()" id="langBtn" class="lang-btn nav-link text-cream-200 hover:text-cream-100 text-[10px] sm:text-xs font-bold border border-cream-600 rounded-full px-2.5 sm:px-3 py-1 transition-all">EN</button>
+                <button onclick="openPopup('contactPopup')" class="btn-sand rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold flex items-center gap-1">
+                    <iconify-icon icon="ic:baseline-whatsapp" width="14" class="sm:hidden"></iconify-icon>
+                    <iconify-icon icon="ic:baseline-whatsapp" width="16" class="hidden sm:inline-block"></iconify-icon>
+                    <span class="hidden sm:inline" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</span>
+                </button>
+                <!-- Mobile menu -->
+                <button onclick="openPopup('mobileMenu')" class="lg:hidden nav-link text-cream-200 p-1">
+                    <iconify-icon icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden store-bg">
+        <div class="hero-overlay absolute inset-0"></div>
+        <div class="absolute top-20 right-8 w-64 h-64 lg:w-80 lg:h-80 decorative-dot rounded-full parallax-decor"></div>
+        <div class="absolute bottom-24 left-8 w-48 h-48 lg:w-64 lg:h-64 decorative-dot rounded-full parallax-decor" style="animation-delay:3s"></div>
+        <div class="absolute top-1/3 left-1/4 w-3 h-3 bg-sand-300 rounded-full opacity-40" style="animation:float 4s ease-in-out infinite"></div>
+        <div class="absolute top-1/4 right-1/3 w-2 h-2 bg-sand-300 rounded-full opacity-30" style="animation:float 5.5s ease-in-out infinite .7s"></div>
+        <div class="absolute bottom-1/3 right-1/4 w-2.5 h-2.5 bg-sand-300 rounded-full opacity-25" style="animation:float 6s ease-in-out infinite 1.2s"></div>
+
+        <div class="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto">
+            <div class="anim-in d1 logo-hero mx-auto mb-5 sm:mb-7" style="width:160px;height:160px">
+                <img src="https://github.com/mazen-alqayser/a/blob/main/IMG_0406.PNG?raw=true" alt="V7 STORE Logo" class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-[160px] lg:h-[160px] mx-auto rounded-2xl sm:rounded-3xl object-contain shadow-2xl border-2 border-sand-300 border-opacity-25 glow-border" style="animation:rotateIn 1s ease-out .1s forwards, floatSlow 8s ease-in-out infinite 1.5s; opacity:0">
+            </div>
+
+            <h1 class="hero-title anim-in d2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-cream-100 leading-tight mb-3 sm:mb-4">
+                <span data-ar="من السودان" data-en="From Sudan">من السودان</span><br>
+                <span class="shimmer-text" data-ar="للعالم أجمع" data-en="To The World">للعالم أجمع</span>
+            </h1>
+
+            <p class="hero-sub anim-in d3 text-cream-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-3 leading-relaxed" data-ar="منصة رقمية سودانية تدعم كل منتج وكل فكرة وكل حلم يبحث عن فرصته" data-en="A Sudanese digital platform supporting every product, every idea, and every dream looking for its chance">منصة رقمية سودانية تدعم كل منتج وكل فكرة وكل حلم يبحث عن فرصته</p>
+
+            <p class="anim-in d4 text-cream-400 text-xs sm:text-sm md:text-base max-w-xl mx-auto mb-8 sm:mb-10" data-ar="لا تحتاج محلًا ولا موقعًا ولا قاعدة جماهيرية.. نحن نوفر لك كل ذلك مجانًا" data-en="No store, no website, no audience needed.. We provide all of that for free">لا تحتاج محلًا ولا موقعًا ولا قاعدة جماهيرية.. نحن نوفر لك كل ذلك مجانًا</p>
+
+            <div class="anim-in d5">
+                <a href="https://v7.pythonanywhere.com/" target="_blank" class="cta-main inline-flex items-center gap-2 sm:gap-3 text-cream-100 font-bold text-base sm:text-lg md:text-xl px-6 sm:px-10 py-4 sm:py-5 rounded-2xl no-underline">
+                    <iconify-icon icon="solar:bag-smile-bold" width="24" class="sm:hidden"></iconify-icon>
+                    <iconify-icon icon="solar:bag-smile-bold" width="28" class="hidden sm:inline-block"></iconify-icon>
+                    <span data-ar="تسوّق الآن عبر تطبيقنا" data-en="Shop Now on Our App">تسوّق الآن عبر تطبيقنا</span>
+                    <span class="font-black text-lg sm:text-xl md:text-2xl" data-ar="V7 STORE" data-en="V7 STORE">V7 STORE</span>
+                    <iconify-icon icon="solar:arrow-left-linear" width="20" class="hidden md:inline-block"></iconify-icon>
+                </a>
+            </div>
+
+            <div class="anim-in d6 flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-6 sm:mt-8">
+                <button onclick="openPopup('joinPopup')" class="btn-outline-sand rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-medium">
+                    <iconify-icon icon="solar:user-plus-linear" width="16" class="inline-block ml-1 align-middle"></iconify-icon>
+                    <span data-ar="انضم كبائع" data-en="Join as Seller">انضم كبائع</span>
+                </button>
+                <button onclick="openPopup('deliveryPopup')" class="btn-outline-sand rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-medium">
+                    <iconify-icon icon="solar:delivery-linear" width="16" class="inline-block ml-1 align-middle"></iconify-icon>
+                    <span data-ar="فرص توصيل" data-en="Delivery Jobs">فرص توصيل</span>
+                </button>
+                <button onclick="openPopup('aboutPopup')" class="btn-outline-sand rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-medium">
+                    <iconify-icon icon="solar:info-circle-linear" width="16" class="inline-block ml-1 align-middle"></iconify-icon>
+                    <span data-ar="تعرّف علينا" data-en="About Us">تعرّف علينا</span>
+                </button>
+                <button onclick="openPopup('faqPopup')" class="btn-outline-sand rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-medium">
+                    <iconify-icon icon="solar:question-circle-linear" width="16" class="inline-block ml-1 align-middle"></iconify-icon>
+                    <span data-ar="أسئلة شائعة" data-en="FAQ">أسئلة شائعة</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 anim-in d8 flex flex-col items-center gap-1.5">
+            <span class="text-cream-400 text-[10px] sm:text-xs" data-ar="اكتشف المزيد" data-en="Discover More">اكتشف المزيد</span>
+            <div class="w-5 h-8 sm:w-6 sm:h-10 border-2 border-cream-500 rounded-full flex justify-center pt-1.5">
+                <div class="w-1 h-2.5 sm:w-1.5 sm:h-3 bg-sand-300 rounded-full" style="animation:bounceSub 1.5s ease-in-out infinite"></div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 80" fill="none" class="w-full"><path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z" fill="#FFF8F0"/></svg>
+        </div>
+    </section>
+
+    <!-- ===== MARQUEE BANNER ===== -->
+    <section class="bg-cream-100 py-3 sm:py-4 overflow-hidden border-b border-sand-300 border-opacity-10">
+        <div class="flex whitespace-nowrap marquee-track" style="width:max-content">
+            <span class="inline-flex items-center gap-6 sm:gap-8 text-sand-500 text-xs sm:text-sm font-medium px-4">
+                <span>🛍️ <span data-ar="تسوّق منتجات سودانية أصيلة" data-en="Shop Authentic Sudanese Products">تسوّق منتجات سودانية أصيلة</span></span>
+                <span class="text-sand-300">✦</span>
+                <span>🚀 <span data-ar="منصة مجانية 100%" data-en="100% Free Platform">منصة مجانية 100%</span></span>
+                <span class="text-sand-300">✦</span>
+                <span>👩‍💼 <span data-ar="ندعم السيدات ورواد الأعمال" data-en="Supporting Women & Entrepreneurs">ندعم السيدات ورواد الأعمال</span></span>
+                <span class="text-sand-300">✦</span>
+                <span>🌍 <span data-ar="نوصل للسودانيين في كل مكان" data-en="Reaching Sudanese Everywhere">نوصل للسودانيين في كل مكان</span></span>
+                <span class="text-sand-300">✦</span>
+                <span>💼 <span data-ar="فرص عمل للدليفري" data-en="Delivery Job Opportunities">فرص عمل للدليفري</span></span>
+                <span class="text-sand-300">✦</span>
+                <span>📱 <span data-ar="تطبيق سهل وسريع" data-en="Easy & Fast App">تطبيق سهل وسريع</span></span>
+                <span class="text-sand-300">✦</span>
+            </span>
+            <span class="inline-flex items-center gap-6 sm:gap-8 text-sand-500 text-xs sm:text-sm font-medium px-4">
+                <span>🛍️ <span data-ar="تسوّق منتجات سودانية أصيلة" data-en="Shop Authentic Sudanese Products">تسوّق منتجات سودانية أصيلة</span></span>
+                <span class="text-sand-300">✦</span>
+                <span>🚀 <span data-ar="منصة مجانية 100%" data-en="100% Free Platform">منصة مجانية 100%</span></span>
+                <span class="text-sand-300">✦</span>
+                <span>👩‍💼 <span data-ar="ندعم السيدات ورواد الأعمال" data-en="Supporting Women & Entrepreneurs">ندعم السيدات ورواد الأعمال</span></span>
+                <span class="text-sand-300">✦</span>
+                <span>🌍 <span data-ar="نوصل للسودانيين في كل مكان" data-en="Reaching Sudanese Everywhere">نوصل للسودانيين في كل مكان</span></span>
+                <span class="text-sand-300">✦</span>
+                <span>💼 <span data-ar="فرص عمل للدليفري" data-en="Delivery Job Opportunities">فرص عمل للدليفري</span></span>
+                <span class="text-sand-300">✦</span>
+                <span>📱 <span data-ar="تطبيق سهل وسريع" data-en="Easy & Fast App">تطبيق سهل وسريع</span></span>
+                <span class="text-sand-300">✦</span>
+            </span>
+        </div>
+    </section>
+
+    <!-- ===== STATS SECTION ===== -->
+    <section class="py-12 sm:py-16 bg-cream-100 pattern-bg">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
+            <div class="scroll-anim text-center p-4 sm:p-6 glass-card rounded-2xl">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-black text-sand-500 counter-num" data-target="100">0</div>
+                <div class="text-sand-600 text-xs sm:text-sm mt-1" data-ar="بائع نشط" data-en="Active Sellers">بائع نشط</div>
+                <div class="text-sand-400 text-[10px] sm:text-xs" data-ar="ومتزايد" data-en="& Growing">ومتزايد</div>
+            </div>
+            <div class="scroll-anim scroll-anim-delay-1 text-center p-4 sm:p-6 glass-card rounded-2xl">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-black text-sand-500 counter-num" data-target="500">0</div>
+                <div class="text-sand-600 text-xs sm:text-sm mt-1" data-ar="منتج متوفر" data-en="Products Available">منتج متوفر</div>
+                <div class="text-sand-400 text-[10px] sm:text-xs" data-ar="ومتنوع" data-en="& Diverse">ومتنوع</div>
+            </div>
+            <div class="scroll-anim scroll-anim-delay-2 text-center p-4 sm:p-6 glass-card rounded-2xl">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-black text-sand-500 counter-num" data-target="50">0</div>
+                <div class="text-sand-600 text-xs sm:text-sm mt-1" data-ar="مندوب توصيل" data-en="Delivery Agents">مندوب توصيل</div>
+                <div class="text-sand-400 text-[10px] sm:text-xs" data-ar="فرصة عمل" data-en="Job Opportunity">فرصة عمل</div>
+            </div>
+            <div class="scroll-anim scroll-anim-delay-3 text-center p-4 sm:p-6 glass-card rounded-2xl">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-black text-sand-500">FREE</div>
+                <div class="text-sand-600 text-xs sm:text-sm mt-1" data-ar="اشتراك مجاني" data-en="Free Registration">اشتراك مجاني</div>
+                <div class="text-sand-400 text-[10px] sm:text-xs" data-ar="بدون أي رسوم" data-en="No Fees">بدون أي رسوم</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section id="features" class="section-pad py-16 sm:py-20 lg:py-24 store-bg relative overflow-hidden">
+        <div class="section-overlay absolute inset-0"></div>
+        <div class="absolute top-0 left-0 w-80 h-80 lg:w-96 lg:h-96 decorative-dot rounded-full -translate-x-1/2 -translate-y-1/2 parallax-decor"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 lg:w-80 lg:h-80 decorative-dot rounded-full translate-x-1/3 translate-y-1/3 parallax-decor" style="animation-delay:4s"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+            <div class="text-center mb-12 sm:mb-16">
+                <div class="scroll-anim inline-block bg-sand-300 bg-opacity-10 text-sand-500 text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full mb-3 sm:mb-4" data-ar="لماذا V7 STORE؟" data-en="Why V7 STORE?">لماذا V7 STORE؟</div>
+                <h2 class="scroll-anim text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-sand-900 mb-3 sm:mb-4" data-ar="ليس مجرد متجر.. إنه حركة" data-en="Not Just a Store.. It's a Movement">ليس مجرد متجر.. إنه حركة</h2>
+                <p class="scroll-anim text-sand-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed" data-ar="V7 STORE هي منصة رقمية سودانية متكاملة صُممت لتكون سندًا لكل منتج سوداني ولكل شخص يطمح للظهور على الإنترنت" data-en="V7 STORE is a comprehensive Sudanese digital platform designed to support every Sudanese product and everyone aspiring to appear online">V7 STORE هي منصة رقمية سودانية متكاملة صُممت لتكون سندًا لكل منتج سوداني ولكل شخص يطمح للظهور على الإنترنت</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+                <div class="scroll-anim glass-card rounded-2xl p-5 sm:p-7 group cursor-pointer" onclick="openPopup('joinPopup')">
+                    <div class="feature-icon-wrap w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <iconify-icon icon="solar:shop-2-bold-duotone" width="26" class="sm:hidden text-sand-500"></iconify-icon>
+                        <iconify-icon icon="solar:shop-2-bold-duotone" width="28" class="hidden sm:inline-block text-sand-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="عرض مجاني لمنتجاتك" data-en="Free Product Listing">عرض مجاني لمنتجاتك</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="عندك منتجات ومحد تقدر تعرضها على الإنترنت؟ نحن نوفر لك واجهة عرض احترافية مجانًا بدون أي رسوم اشتراك" data-en="Have products but can't show them online? We provide a professional display interface for free with no subscription fees">عندك منتجات ومحد تقدر تعرضها على الإنترنت؟ نحن نوفر لك واجهة عرض احترافية مجانًا بدون أي رسوم اشتراك</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-1 glass-card rounded-2xl p-5 sm:p-7 group cursor-pointer" onclick="openPopup('deliveryPopup')">
+                    <div class="feature-icon-wrap w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <iconify-icon icon="solar:delivery-bold-duotone" width="26" class="sm:hidden text-sand-500"></iconify-icon>
+                        <iconify-icon icon="solar:delivery-bold-duotone" width="28" class="hidden sm:inline-block text-sand-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="فرص عمل للدليفري" data-en="Delivery Job Opportunities">فرص عمل للدليفري</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="نفتح باب الوظايف لعمال الدليفري وندعمهم في تحقيق دخل مستدام من خلال خدمة التوصيل المرتبطة بالمنصة" data-en="We open job opportunities for delivery workers and support them in achieving sustainable income through platform-linked delivery services">نفتح باب الوظايف لعمال الدليفري وندعمهم في تحقيق دخل مستدام من خلال خدمة التوصيل المرتبطة بالمنصة</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-2 glass-card rounded-2xl p-5 sm:p-7 group cursor-pointer" onclick="openPopup('aboutPopup')">
+                    <div class="feature-icon-wrap w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <iconify-icon icon="solar:users-group-rounded-bold-duotone" width="26" class="sm:hidden text-sand-500"></iconify-icon>
+                        <iconify-icon icon="solar:users-group-rounded-bold-duotone" width="28" class="hidden sm:inline-block text-sand-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="دعم أصحاب المنتجات" data-en="Supporting Product Owners">دعم أصحاب المنتجات</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="ما عندك محل ولا موقع ولا قاعدة جماهيرية؟ لا تقلق، نحن بنساعدك تظهر وتبيع من خلال منصتنا" data-en="No store, no website, no audience? Don't worry, we help you appear and sell through our platform">ما عندك محل ولا موقع ولا قاعدة جماهيرية؟ لا تقلق، نحن بنساعدك تظهر وتبيع من خلال منصتنا</p>
+                </div>
+                <div class="scroll-anim glass-card rounded-2xl p-5 sm:p-7 group cursor-pointer">
+                    <div class="feature-icon-wrap w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <iconify-icon icon="solar:globe-bold-duotone" width="26" class="sm:hidden text-sand-500"></iconify-icon>
+                        <iconify-icon icon="solar:globe-bold-duotone" width="28" class="hidden sm:inline-block text-sand-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="من السودان للعالم" data-en="From Sudan to the World">من السودان للعالم</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="ندعم السودانيين داخل السودان وخارجه. منصتنا تصل لكل سوداني في أي مكان بالعالم" data-en="We support Sudanese inside and outside Sudan. Our platform reaches every Sudanese anywhere in the world">ندعم السودانيين داخل السودان وخارجه. منصتنا تصل لكل سوداني في أي مكان بالعالم</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-1 glass-card rounded-2xl p-5 sm:p-7 group cursor-pointer">
+                    <div class="feature-icon-wrap w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <iconify-icon icon="solar:shield-check-bold-duotone" width="26" class="sm:hidden text-sand-500"></iconify-icon>
+                        <iconify-icon icon="solar:shield-check-bold-duotone" width="28" class="hidden sm:inline-block text-sand-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="خدمة توصيل موثوقة" data-en="Reliable Delivery Service">خدمة توصيل موثوقة</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="خدمة التوصيل بيوفرها المنتج نفسه مع ضمان وصول الطلبات بأمان وبأقل تكلفة" data-en="Delivery service provided by the product owner with guaranteed safe delivery at lowest cost">خدمة التوصيل بيوفرها المنتج نفسه مع ضمان وصول الطلبات بأمان وبأقل تكلفة</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-2 glass-card rounded-2xl p-5 sm:p-7 group cursor-pointer" onclick="openPopup('contactPopup')">
+                    <div class="feature-icon-wrap w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <iconify-icon icon="ic:baseline-whatsapp" width="26" class="sm:hidden text-green-600"></iconify-icon>
+                        <iconify-icon icon="ic:baseline-whatsapp" width="28" class="hidden sm:inline-block text-green-600"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="تواصل مباشر عبر واتساب" data-en="Direct WhatsApp Contact">تواصل مباشر عبر واتساب</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="اشترك معانا بسهولة من خلال خدمة العملاء على واتساب. فريقنا جاهز لمساعدتك في أي وقت" data-en="Register easily through our WhatsApp customer service. Our team is ready to help you anytime">اشترك معانا بسهولة من خلال خدمة العملاء على واتساب. فريقنا جاهز لمساعدتك في أي وقت</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRODUCTS CATEGORIES ===== -->
+    <section id="products" class="section-pad py-16 sm:py-20 lg:py-24 bg-cream-200 relative overflow-hidden pattern-bg">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 sm:mb-16">
+                <div class="scroll-anim inline-block bg-sand-500 bg-opacity-10 text-sand-500 text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full mb-3 sm:mb-4" data-ar="تنوع المنتجات" data-en="Product Diversity">تنوع المنتجات</div>
+                <h2 class="scroll-anim text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-sand-900 mb-3 sm:mb-4" data-ar="كل ما تحتاجه في مكان واحد" data-en="Everything You Need in One Place">كل ما تحتاجه في مكان واحد</h2>
+                <p class="scroll-anim text-sand-600 text-sm sm:text-base max-w-xl mx-auto" data-ar="اكتشف تشكيلة واسعة من المنتجات السودانية الأصيلة" data-en="Discover a wide range of authentic Sudanese products">اكتشف تشكيلة واسعة من المنتجات السودانية الأصيلة</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+                <div class="scroll-anim bg-white rounded-2xl p-4 sm:p-6 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-3 transition-all duration-400 text-center group cursor-pointer" onclick="window.open('https://v7.pythonanywhere.com/','_blank')">
+                    <div class="text-4xl sm:text-5xl mb-3 group-hover:scale-115 transition-transform">🥘</div>
+                    <h3 class="text-sm sm:text-base font-bold text-sand-900 mb-1" data-ar="أطعمة ومشروبات" data-en="Food & Beverages">أطعمة ومشروبات</h3>
+                    <p class="text-sand-500 text-[10px] sm:text-xs" data-ar="مطبخ سوداني أصيل" data-en="Authentic Sudanese Cuisine">مطبخ سوداني أصيل</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-1 bg-white rounded-2xl p-4 sm:p-6 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-3 transition-all duration-400 text-center group cursor-pointer" onclick="window.open('https://v7.pythonanywhere.com/','_blank')">
+                    <div class="text-4xl sm:text-5xl mb-3 group-hover:scale-115 transition-transform">👗</div>
+                    <h3 class="text-sm sm:text-base font-bold text-sand-900 mb-1" data-ar="ملابس وأزياء" data-en="Clothing & Fashion">ملابس وأزياء</h3>
+                    <p class="text-sand-500 text-[10px] sm:text-xs" data-ar="أزياء سودانية عصرية" data-en="Modern Sudanese Fashion">أزياء سودانية عصرية</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-2 bg-white rounded-2xl p-4 sm:p-6 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-3 transition-all duration-400 text-center group cursor-pointer" onclick="window.open('https://v7.pythonanywhere.com/','_blank')">
+                    <div class="text-4xl sm:text-5xl mb-3 group-hover:scale-115 transition-transform">🧴</div>
+                    <h3 class="text-sm sm:text-base font-bold text-sand-900 mb-1" data-ar="تجميل وعناية" data-en="Beauty & Care">تجميل وعناية</h3>
+                    <p class="text-sand-500 text-[10px] sm:text-xs" data-ar="منتجات طبيعية" data-en="Natural Products">منتجات طبيعية</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-3 bg-white rounded-2xl p-4 sm:p-6 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-3 transition-all duration-400 text-center group cursor-pointer" onclick="window.open('https://v7.pythonanywhere.com/','_blank')">
+                    <div class="text-4xl sm:text-5xl mb-3 group-hover:scale-115 transition-transform">🎨</div>
+                    <h3 class="text-sm sm:text-base font-bold text-sand-900 mb-1" data-ar="حرف يدوية" data-en="Handicrafts">حرف يدوية</h3>
+                    <p class="text-sand-500 text-[10px] sm:text-xs" data-ar="إبداع سوداني فريد" data-en="Unique Sudanese Creativity">إبداع سوداني فريد</p>
+                </div>
+                <div class="scroll-anim bg-white rounded-2xl p-4 sm:p-6 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-3 transition-all duration-400 text-center group cursor-pointer" onclick="window.open('https://v7.pythonanywhere.com/','_blank')">
+                    <div class="text-4xl sm:text-5xl mb-3 group-hover:scale-115 transition-transform">🌿</div>
+                    <h3 class="text-sm sm:text-base font-bold text-sand-900 mb-1" data-ar="أعشاب وبهارات" data-en="Herbs & Spices">أعشاب وبهارات</h3>
+                    <p class="text-sand-500 text-[10px] sm:text-xs" data-ar="طبيعة سودانية خالصة" data-en="Pure Sudanese Nature">طبيعة سودانية خالصة</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-1 bg-white rounded-2xl p-4 sm:p-6 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-3 transition-all duration-400 text-center group cursor-pointer" onclick="window.open('https://v7.pythonanywhere.com/','_blank')">
+                    <div class="text-4xl sm:text-5xl mb-3 group-hover:scale-115 transition-transform">📱</div>
+                    <h3 class="text-sm sm:text-base font-bold text-sand-900 mb-1" data-ar="إلكترونيات" data-en="Electronics">إلكترونيات</h3>
+                    <p class="text-sand-500 text-[10px] sm:text-xs" data-ar="أحدث الأجهزة" data-en="Latest Devices">أحدث الأجهزة</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-2 bg-white rounded-2xl p-4 sm:p-6 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-3 transition-all duration-400 text-center group cursor-pointer" onclick="window.open('https://v7.pythonanywhere.com/','_blank')">
+                    <div class="text-4xl sm:text-5xl mb-3 group-hover:scale-115 transition-transform">🏡</div>
+                    <h3 class="text-sm sm:text-base font-bold text-sand-900 mb-1" data-ar="أدوات منزلية" data-en="Home Tools">أدوات منزلية</h3>
+                    <p class="text-sand-500 text-[10px] sm:text-xs" data-ar="لكل بيت سوداني" data-en="For Every Sudanese Home">لكل بيت سوداني</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-3 bg-white rounded-2xl p-4 sm:p-6 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-3 transition-all duration-400 text-center group cursor-pointer" onclick="window.open('https://v7.pythonanywhere.com/','_blank')">
+                    <div class="text-4xl sm:text-5xl mb-3 group-hover:scale-115 transition-transform">🎁</div>
+                    <h3 class="text-sm sm:text-base font-bold text-sand-900 mb-1" data-ar="هدايا وتذكارات" data-en="Gifts & Souvenirs">هدايا وتذكارات</h3>
+                    <p class="text-sand-500 text-[10px] sm:text-xs" data-ar="ذكريات سودانية" data-en="Sudanese Memories">ذكريات سودانية</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MOTIVATIONAL MESSAGES ===== -->
+    <section id="motivate" class="section-pad py-16 sm:py-20 lg:py-24 store-bg relative overflow-hidden">
+        <div class="section-overlay-dark absolute inset-0"></div>
+        <div class="absolute top-8 right-8 w-64 h-64 lg:w-80 lg:h-80 rounded-full parallax-decor" style="background:radial-gradient(circle,rgba(196,167,108,0.06),transparent 70%)"></div>
+        <div class="absolute bottom-8 left-8 w-80 h-80 lg:w-96 lg:h-96 rounded-full parallax-decor" style="background:radial-gradient(circle,rgba(196,167,108,0.04),transparent 70%);animation-delay:5s"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] lg:w-[650px] lg:h-[650px] rounded-full border border-sand-300 border-opacity-5" style="animation:spinSlow 70s linear infinite"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] lg:w-[450px] lg:h-[450px] rounded-full border border-sand-300 border-opacity-5" style="animation:spinSlow 45s linear infinite reverse"></div>
+
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
+            <div class="text-center mb-12 sm:mb-16">
+                <div class="scroll-anim inline-block bg-sand-300 bg-opacity-10 text-sand-300 text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full mb-3 sm:mb-4" data-ar="رسائل تحفيزية" data-en="Motivational Messages">رسائل تحفيزية</div>
+                <h2 class="scroll-anim text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-cream-100 mb-3 sm:mb-4" data-ar="كل حلم يستحق أن يتحقق" data-en="Every Dream Deserves to Come True">كل حلم يستحق أن يتحقق</h2>
+            </div>
+
+            <div class="scroll-anim relative bg-sand-800 bg-opacity-50 border border-sand-300 border-opacity-10 rounded-3xl p-8 sm:p-10 md:p-16 text-center min-h-[180px] sm:min-h-[200px] flex flex-col items-center justify-center">
+                <div class="absolute top-3 right-5 text-sand-500 text-5xl sm:text-6xl font-black opacity-10 leading-none">"</div>
+                <div class="absolute bottom-3 left-5 text-sand-500 text-5xl sm:text-6xl font-black opacity-10 leading-none rotate-180">"</div>
+                <div id="messageContainer" class="relative" style="min-height:90px"></div>
+                <div class="flex items-center gap-2 mt-6 sm:mt-8" id="messageDots"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-8 sm:mt-10">
+                <div class="scroll-anim dark-glass rounded-xl p-4 sm:p-5 text-center">
+                    <div class="text-2xl sm:text-3xl mb-2">👩‍🏭</div>
+                    <p class="text-cream-200 text-[10px] sm:text-xs font-medium leading-relaxed" data-ar="لسيداتٍ يصنعن المستقبل بإبداعهن" data-en="For women building the future with their creativity">لسيداتٍ يصنعن المستقبل بإبداعهن</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-1 dark-glass rounded-xl p-4 sm:p-5 text-center">
+                    <div class="text-2xl sm:text-3xl mb-2">🚀</div>
+                    <p class="text-cream-200 text-[10px] sm:text-xs font-medium leading-relaxed" data-ar="لشبابٍ لا يعترفون بالمستحيل" data-en="For youth who don't accept the impossible">لشبابٍ لا يعترفون بالمستحيل</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-2 dark-glass rounded-xl p-4 sm:p-5 text-center">
+                    <div class="text-2xl sm:text-3xl mb-2">💪</div>
+                    <p class="text-cream-200 text-[10px] sm:text-xs font-medium leading-relaxed" data-ar="لرجالٍ يبنون اقتصادًا قويًا" data-en="For men building a strong economy">لرجالٍ يبنون اقتصادًا قويًا</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-3 dark-glass rounded-xl p-4 sm:p-5 text-center">
+                    <div class="text-2xl sm:text-3xl mb-2">🌾</div>
+                    <p class="text-cream-200 text-[10px] sm:text-xs font-medium leading-relaxed" data-ar="لمنتجين يعتزون بمنتوجهم" data-en="For producers proud of their products">لمنتجين يعتزون بمنتوجهم</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WHO WE SUPPORT ===== -->
+    <section id="support" class="section-pad py-16 sm:py-20 lg:py-24 bg-cream-100 relative overflow-hidden pattern-bg">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 sm:mb-16">
+                <div class="scroll-anim inline-block bg-sand-500 bg-opacity-10 text-sand-500 text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full mb-3 sm:mb-4" data-ar="مجتمع V7" data-en="V7 Community">مجتمع V7</div>
+                <h2 class="scroll-anim text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-sand-900 mb-3 sm:mb-4" data-ar="ندعم كل أطياف المجتمع" data-en="We Support All Segments of Society">ندعم كل أطياف المجتمع</h2>
+                <p class="scroll-anim text-sand-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed" data-ar="سواء كنت رجل أعمال أو سيدة تدير مشروعًا من المنزل أو شاب طموح أو حرفي مبدع.. مكانك هنا" data-en="Whether you're a business owner, a woman running a home project, an ambitious youth, or a creative artisan.. Your place is here">سواء كنت رجل أعمال أو سيدة تدير مشروعًا من المنزل أو شاب طموح أو حرفي مبدع.. مكانك هنا</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+                <div class="scroll-anim bg-white rounded-2xl p-5 sm:p-7 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-2 transition-all duration-400 group">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-pink-100 to-pink-50 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+                        <iconify-icon icon="solar:women-bold-duotone" width="30" class="sm:hidden text-pink-500"></iconify-icon>
+                        <iconify-icon icon="solar:women-bold-duotone" width="32" class="hidden sm:inline-block text-pink-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="السيدات وربات البيوت" data-en="Women & Homemakers">السيدات وربات البيوت</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="صاحبات المشاريع المنزلية والحرفيات اللاتي يصنعن منتجات بيدوية مميزة ويحتاجن منصة للعرض والبيع" data-en="Home business owners and craftswomen making unique handmade products who need a platform to display and sell">صاحبات المشاريع المنزلية والحرفيات اللاتي يصنعن منتجات بيدوية مميزة ويحتاجن منصة للعرض والبيع</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-1 bg-white rounded-2xl p-5 sm:p-7 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-2 transition-all duration-400 group">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+                        <iconify-icon icon="solar:young-man-bold-duotone" width="30" class="sm:hidden text-blue-500"></iconify-icon>
+                        <iconify-icon icon="solar:young-man-bold-duotone" width="32" class="hidden sm:inline-block text-blue-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="الشباب الطموح" data-en="Ambitious Youth">الشباب الطموح</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="الشباب الباحثون عن فرصة لبدء مشروعاتهم التجارية وبناء مستقبلهم المهني من خلال التجارة الإلكترونية" data-en="Youth looking for an opportunity to start commercial projects and build their professional future through e-commerce">الشباب الباحثون عن فرصة لبدء مشروعاتهم التجارية وبناء مستقبلهم المهني من خلال التجارة الإلكترونية</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-2 bg-white rounded-2xl p-5 sm:p-7 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-2 transition-all duration-400 group">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+                        <iconify-icon icon="solar:case-bold-duotone" width="30" class="sm:hidden text-amber-500"></iconify-icon>
+                        <iconify-icon icon="solar:case-bold-duotone" width="32" class="hidden sm:inline-block text-amber-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="أصحاب المحلات التجارية" data-en="Shop Owners">أصحاب المحلات التجارية</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="أصحاب المحلات الذين ما قدر يوصلوا للإنترنت ويريدوا يوسعوا قاعدة عملائهم عبر العالم الرقمي" data-en="Shop owners who couldn't reach the internet and want to expand their customer base through the digital world">أصحاب المحلات الذين ما قدر يوصلوا للإنترنت ويريدوا يوسعوا قاعدة عملائهم عبر العالم الرقمي</p>
+                </div>
+                <div class="scroll-anim bg-white rounded-2xl p-5 sm:p-7 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-2 transition-all duration-400 group">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+                        <iconify-icon icon="solar:leaf-bold-duotone" width="30" class="sm:hidden text-green-500"></iconify-icon>
+                        <iconify-icon icon="solar:leaf-bold-duotone" width="32" class="hidden sm:inline-block text-green-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="المزارعون والمنتجون" data-en="Farmers & Producers">المزارعون والمنتجون</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="منتجو المواد الغذائية والزراعية السودانية الذين يريدوا يوصلوا منتجاتهم الطازجة للمستهلك مباشرة" data-en="Sudanese food and agricultural producers who want to deliver fresh products directly to consumers">منتجو المواد الغذائية والزراعية السودانية الذين يريدوا يوصلوا منتجاتهم الطازجة للمستهلك مباشرة</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-1 bg-white rounded-2xl p-5 sm:p-7 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-2 transition-all duration-400 group">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+                        <iconify-icon icon="solar:pallete-2-bold-duotone" width="30" class="sm:hidden text-purple-500"></iconify-icon>
+                        <iconify-icon icon="solar:pallete-2-bold-duotone" width="32" class="hidden sm:inline-block text-purple-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="الحرفيون والمبدعون" data-en="Artisans & Creatives">الحرفيون والمبدعون</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="صنّاع الحرف اليدوية السودانية من جلود وخشب ونسيج وفخار وغيرها من الفنون التي نفتخر بها" data-en="Makers of Sudanese handicrafts from leather, wood, textiles, pottery, and other arts we're proud of">صنّاع الحرف اليدوية السودانية من جلود وخشب ونسيج وفخار وغيرها من الفنون التي نفتخر بها</p>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-2 bg-white rounded-2xl p-5 sm:p-7 border border-sand-300 border-opacity-10 hover:shadow-xl hover:-translate-y-2 transition-all duration-400 group">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform">
+                        <iconify-icon icon="solar:delivery-bold-duotone" width="30" class="sm:hidden text-orange-500"></iconify-icon>
+                        <iconify-icon icon="solar:delivery-bold-duotone" width="32" class="hidden sm:inline-block text-orange-500"></iconify-icon>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2" data-ar="عمال التوصيل" data-en="Delivery Workers">عمال التوصيل</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed" data-ar="فرص عمل حقيقية لعمال الدليفري من خلال ربطهم بالبائعين والمنتجين على المنصة" data-en="Real job opportunities for delivery workers by connecting them with sellers and producers on the platform">فرص عمل حقيقية لعمال الدليفري من خلال ربطهم بالبائعين والمنتجين على المنصة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW TO JOIN ===== -->
+    <section id="howto" class="section-pad py-16 sm:py-20 lg:py-24 store-bg relative overflow-hidden">
+        <div class="section-overlay-warm absolute inset-0"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
+            <div class="text-center mb-12 sm:mb-16">
+                <div class="scroll-anim inline-block bg-sand-500 bg-opacity-10 text-sand-500 text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full mb-3 sm:mb-4" data-ar="خطوات بسيطة" data-en="Simple Steps">خطوات بسيطة</div>
+                <h2 class="scroll-anim text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-sand-900 mb-3 sm:mb-4" data-ar="كيف تبدأ رحلتك؟" data-en="How to Start Your Journey?">كيف تبدأ رحلتك؟</h2>
+                <p class="scroll-anim text-sand-600 text-sm sm:text-base max-w-xl mx-auto" data-ar="ثلاث خطوات فقط تفصلك عن عرض منتجاتك لآلاف المتسوقين" data-en="Only three steps separate you from showcasing your products to thousands of shoppers">ثلاث خطوات فقط تفصلك عن عرض منتجاتك لآلاف المتسوقين</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 sm:gap-8 relative">
+                <div class="hidden md:block absolute top-16 lg:top-20 left-[20%] right-[20%] h-0.5 bg-gradient-to-l from-sand-300 via-sand-300 to-sand-300 bg-opacity-25"></div>
+                <div class="scroll-anim text-center relative">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-sand-300 to-sand-500 text-white text-xl sm:text-2xl font-black flex items-center justify-center mx-auto mb-5 sm:mb-6 relative z-10 shadow-lg">1</div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2 sm:mb-3" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4" data-ar="ابعت لنا على واتساب وحدّثنا عن منتجاتك ونوع نشاطك" data-en="Message us on WhatsApp and tell us about your products and business type">ابعت لنا على واتساب وحدّثنا عن منتجاتك ونوع نشاطك</p>
+                    <div class="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
+                        <iconify-icon icon="ic:baseline-whatsapp" width="14"></iconify-icon><span>WhatsApp</span>
+                    </div>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-2 text-center relative">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-sand-300 to-sand-500 text-white text-xl sm:text-2xl font-black flex items-center justify-center mx-auto mb-5 sm:mb-6 relative z-10 shadow-lg">2</div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2 sm:mb-3" data-ar="أرسل تفاصيل منتجاتك" data-en="Send Product Details">أرسل تفاصيل منتجاتك</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4" data-ar="صور المنتجات والأسعار والوصف وكل المعلومات اللي محتاجينها" data-en="Product photos, prices, descriptions, and all needed information">صور المنتجات والأسعار والوصف وكل المعلومات اللي محتاجينها</p>
+                    <div class="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
+                        <iconify-icon icon="solar:camera-linear" width="14"></iconify-icon>
+                        <span data-ar="صور + تفاصيل" data-en="Photos + Details">صور + تفاصيل</span>
+                    </div>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-4 text-center relative">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-sand-300 to-sand-500 text-white text-xl sm:text-2xl font-black flex items-center justify-center mx-auto mb-5 sm:mb-6 relative z-10 shadow-lg">3</div>
+                    <h3 class="text-base sm:text-lg font-bold text-sand-900 mb-2 sm:mb-3" data-ar="ابدأ البيع!" data-en="Start Selling!">ابدأ البيع!</h3>
+                    <p class="text-sand-600 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4" data-ar="منتجاتك تتنزل على المنصة وتقدر تبدأ تستقبل طلبات فورًا" data-en="Your products go live and you can start receiving orders immediately">منتجاتك تتنزل على المنصة وتقدر تبدأ تستقبل طلبات فورًا</p>
+                    <div class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
+                        <iconify-icon icon="solar:rocket-bold" width="14"></iconify-icon>
+                        <span data-ar="فوري ومجاني" data-en="Instant & Free">فوري ومجاني</span>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-anim text-center mt-10 sm:mt-14">
+                <button onclick="openPopup('joinPopup')" class="btn-sand rounded-2xl px-8 sm:px-10 py-3 sm:py-4 text-sm sm:text-base font-bold inline-flex items-center gap-2">
+                    <iconify-icon icon="solar:user-plus-bold" width="20"></iconify-icon>
+                    <span data-ar="سجّل الآن مجانًا" data-en="Register Now for Free">سجّل الآن مجانًا</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section id="testimonials" class="section-pad py-16 sm:py-20 lg:py-24 bg-cream-200 relative overflow-hidden pattern-bg">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 sm:mb-16">
+                <div class="scroll-anim inline-block bg-sand-500 bg-opacity-10 text-sand-500 text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full mb-3 sm:mb-4" data-ar="آراء العملاء" data-en="Testimonials">آراء العملاء</div>
+                <h2 class="scroll-anim text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-sand-900 mb-3 sm:mb-4" data-ar="ماذا يقولون عن V7 STORE؟" data-en="What Do They Say About V7 STORE?">ماذا يقولون عن V7 STORE؟</h2>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+                <div class="scroll-anim bg-white rounded-2xl p-5 sm:p-7 border border-sand-300 border-opacity-10 hover:shadow-lg transition-all">
+                    <div class="flex items-center gap-1 mb-3">
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                    </div>
+                    <p class="text-sand-700 text-xs sm:text-sm leading-relaxed mb-4" data-ar="كنت عندي منتجات ممتازة بس ما قدر أعرضها على الإنترنت. V7 STORE غيرت حياتي تمامًا وبدأت أبيع بشكل مستمر!" data-en="I had excellent products but couldn't show them online. V7 STORE completely changed my life and I started selling regularly!">كنت عندي منتجات ممتازة بس ما قدر أعرضها على الإنترنت. V7 STORE غيرت حياتي تمامًا وبدأت أبيع بشكل مستمر!</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-pink-200 to-pink-100 flex items-center justify-center text-pink-600 font-bold text-sm">ف</div>
+                        <div><p class="text-sand-900 text-xs sm:text-sm font-bold" data-ar="فاطمة أحمد" data-en="Fatima Ahmed">فاطمة أحمد</p><p class="text-sand-500 text-[10px] sm:text-xs" data-ar="ربة بيت - الخرطوم" data-en="Homemaker - Khartoum">ربة بيت - الخرطوم</p></div>
+                    </div>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-1 bg-white rounded-2xl p-5 sm:p-7 border border-sand-300 border-opacity-10 hover:shadow-lg transition-all">
+                    <div class="flex items-center gap-1 mb-3">
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                    </div>
+                    <p class="text-sand-700 text-xs sm:text-sm leading-relaxed mb-4" data-ar="أفضل منصة سودانية للتجارة الإلكترونية. سهلة الاستخدام والفريق دايمًا مساعد. أنصح بي كل شاب طموح" data-en="Best Sudanese e-commerce platform. Easy to use and the team is always helpful. I recommend it to every ambitious youth">أفضل منصة سودانية للتجارة الإلكترونية. سهلة الاستخدام والفريق دايمًا مساعد. أنصح بي كل شاب طموح</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-200 to-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">م</div>
+                        <div><p class="text-sand-900 text-xs sm:text-sm font-bold" data-ar="محمد خالد" data-en="Mohamed Khaled">محمد خالد</p><p class="text-sand-500 text-[10px] sm:text-xs" data-ar="شاب رائد أعمال - أم درمان" data-en="Young Entrepreneur - Omdurman">شاب رائد أعمال - أم درمان</p></div>
+                    </div>
+                </div>
+                <div class="scroll-anim scroll-anim-delay-2 bg-white rounded-2xl p-5 sm:p-7 border border-sand-300 border-opacity-10 hover:shadow-lg transition-all sm:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-1 mb-3">
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16" class="text-amber-400"></iconify-icon>
+                    </div>
+                    <p class="text-sand-700 text-xs sm:text-sm leading-relaxed mb-4" data-ar="كمندوب توصيل، V7 STORE وفرت لي مصدر دخل ثابت وأنا شاكر جدًا للفرصة دي. المنصة منظمة ومريحة" data-en="As a delivery agent, V7 STORE provided me with a stable income source and I'm very grateful for this opportunity. The platform is organized and comfortable">كمندوب توصيل، V7 STORE وفرت لي مصدر دخل ثابت وأنا شاكر جدًا للفرصة دي. المنصة منظمة ومريحة</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-orange-200 to-orange-100 flex items-center justify-center text-orange-600 font-bold text-sm">ع</div>
+                        <div><p class="text-sand-900 text-xs sm:text-sm font-bold" data-ar="عبدالله يوسف" data-en="Abdullah Yousif">عبدالله يوسف</p><p class="text-sand-500 text-[10px] sm:text-xs" data-ar="مندوب توصيل - بورتسودان" data-en="Delivery Agent - Port Sudan">مندوب توصيل - بورتسودان</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== BIG CTA SECTION ===== -->
+    <section class="py-16 sm:py-20 lg:py-24 relative overflow-hidden store-bg">
+        <div class="absolute inset-0 bg-gradient-to-l from-sand-900 via-sand-900 to-sand-800 opacity-92"></div>
+        <div class="absolute top-10 left-10 w-72 h-72 rounded-full parallax-decor" style="background:radial-gradient(circle,rgba(196,167,108,0.08),transparent 70%)"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col md:flex-row items-center gap-8 sm:gap-12">
+            <div class="flex-1 text-center md:text-right">
+                <h2 class="scroll-anim text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-cream-100 mb-4 sm:mb-6 leading-tight" data-ar="جاهز تبدأ رحلتك التجارية؟" data-en="Ready to Start Your Commercial Journey?">جاهز تبدأ رحلتك التجارية؟</h2>
+                <p class="scroll-anim text-cream-400 text-sm sm:text-base lg:text-lg leading-relaxed mb-6 sm:mb-8" data-ar="لا تنتظر الفرصة.. اصنعها! انضم لآلاف السودانيين اللي بدأوا يحققوا أرباحهم من خلال V7 STORE" data-en="Don't wait for opportunity.. Create it! Join thousands of Sudanese who started making profits through V7 STORE">لا تنتظر الفرصة.. اصنعها! انضم لآلاف السودانيين اللي بدأوا يحققوا أرباحهم من خلال V7 STORE</p>
+                <div class="scroll-anim flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center md:justify-start">
+                    <a href="https://v7.pythonanywhere.com/" target="_blank" class="cta-main inline-flex items-center gap-2 sm:gap-3 text-cream-100 font-bold text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 rounded-2xl no-underline">
+                        <iconify-icon icon="solar:bag-smile-bold" width="22"></iconify-icon>
+                        <span data-ar="تسوّق الآن" data-en="Shop Now">تسوّق الآن</span>
+                        <span class="font-black text-base sm:text-lg">V7 STORE</span>
+                    </a>
+                    <button onclick="openPopup('contactPopup')" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 rounded-2xl transition-all hover:-translate-y-1 shadow-lg">
+                        <iconify-icon icon="ic:baseline-whatsapp" width="22"></iconify-icon>
+                        <span data-ar="انضم كبائع" data-en="Join as Seller">انضم كبائع</span>
+                    </button>
+                </div>
+            </div>
+            <div class="scroll-anim flex-shrink-0" style="animation:floatSlow 6s ease-in-out infinite">
+                <img src="https://github.com/mazen-alqayser/a/blob/main/IMG_0406.PNG?raw=true" alt="V7 STORE" class="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 lg:w-56 lg:h-56 rounded-3xl object-contain shadow-2xl border-2 border-sand-300 border-opacity-20">
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SUDAN PRIDE BANNER ===== -->
+    <section class="py-10 sm:py-14 bg-cream-100 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+            <div class="scroll-anim">
+                <div class="text-4xl sm:text-5xl mb-4">🇸🇩</div>
+                <p class="text-sand-700 text-sm sm:text-base lg:text-lg font-bold leading-relaxed mb-2" data-ar="صنع بإ自豪 في السودان" data-en="Made with Pride in Sudan">صنع بإعتزاز في السودان</p>
+                <p class="text-sand-500 text-xs sm:text-sm" data-ar="V7 STORE - متجر عصري بهوية رقمية معاصرة للسودان" data-en="V7 STORE - A modern store with a contemporary Sudanese digital identity">V7 STORE - متجر عصري بهوية رقمية معاصرة للسودان</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-sand-900 pt-12 sm:pt-16 pb-6 sm:pb-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-10 sm:mb-12">
+                <div class="sm:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="https://github.com/mazen-alqayser/a/blob/main/IMG_0406.PNG?raw=true" alt="V7 STORE" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl object-contain">
+                        <span class="text-cream-100 font-bold text-lg">V7 STORE</span>
+                    </div>
+                    <p class="text-cream-500 text-xs sm:text-sm leading-relaxed" data-ar="منصة رقمية سودانية تدعم التجارة الإلكترونية وتمكّن كل سوداني من عرض منتجاته والوصول للعالم" data-en="A Sudanese digital platform supporting e-commerce and enabling every Sudanese to showcase products and reach the world">منصة رقمية سودانية تدعم التجارة الإلكترونية وتمكّن كل سوداني من عرض منتجاته والوصول للعالم</p>
+                </div>
+                <div>
+                    <h4 class="text-cream-200 font-bold text-sm mb-4" data-ar="روابط سريعة" data-en="Quick Links">روابط سريعة</h4>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><a href="https://v7.pythonanywhere.com/" target="_blank" class="text-cream-500 hover:text-sand-300 transition-colors" data-ar="المتجر الإلكتروني" data-en="Online Store">المتجر الإلكتروني</a></li>
+                        <li><a href="#features" class="text-cream-500 hover:text-sand-300 transition-colors" data-ar="المميزات" data-en="Features">المميزات</a></li>
+                        <li><a href="#support" class="text-cream-500 hover:text-sand-300 transition-colors" data-ar="من ندعم" data-en="Who We Support">من ندعم</a></li>
+                        <li><a href="#products" class="text-cream-500 hover:text-sand-300 transition-colors" data-ar="المنتجات" data-en="Products">المنتجات</a></li>
+                        <li><a href="#howto" class="text-cream-500 hover:text-sand-300 transition-colors" data-ar="كيف تبدأ" data-en="How to Start">كيف تبدأ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-cream-200 font-bold text-sm mb-4" data-ar="خدماتنا" data-en="Our Services">خدماتنا</h4>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><button onclick="openPopup('joinPopup')" class="text-cream-500 hover:text-sand-300 transition-colors" data-ar="التسجيل كبائع" data-en="Register as Seller">التسجيل كبائع</button></li>
+                        <li><button onclick="openPopup('deliveryPopup')" class="text-cream-500 hover:text-sand-300 transition-colors" data-ar="فرص التوصيل" data-en="Delivery Opportunities">فرص التوصيل</button></li>
+                        <li><button onclick="openPopup('faqPopup')" class="text-cream-500 hover:text-sand-300 transition-colors" data-ar="الأسئلة الشائعة" data-en="FAQ">الأسئلة الشائعة</button></li>
+                        <li><button onclick="openPopup('aboutPopup')" class="text-cream-500 hover:text-sand-300 transition-colors" data-ar="عن المتجر" data-en="About the Store">عن المتجر</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-cream-200 font-bold text-sm mb-4" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</h4>
+                    <p class="text-cream-500 text-xs sm:text-sm mb-4" data-ar="تواصل معنا عبر واتساب للتسجيل أو لأي استفسار" data-en="Contact us via WhatsApp to register or for any inquiries">تواصل معنا عبر واتساب للتسجيل أو لأي استفسار</p>
+                    <button onclick="openPopup('contactPopup')" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-3 rounded-xl transition-all hover:-translate-y-1">
+                        <iconify-icon icon="ic:baseline-whatsapp" width="18"></iconify-icon>
+                        <span data-ar="واتساب" data-en="WhatsApp">واتساب</span>
+                    </button>
+                </div>
+            </div>
+            <div class="border-t border-cream-600 border-opacity-10 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+                <p class="text-cream-600 text-[10px] sm:text-xs text-center sm:text-right" data-ar="© 2025 V7 STORE. جميع الحقوق محفوظة. صنع بفخر في السودان 🇸🇩" data-en="© 2025 V7 STORE. All rights reserved. Made with pride in Sudan 🇸🇩">© 2025 V7 STORE. جميع الحقوق محفوظة. صنع بفخر في السودان 🇸🇩</p>
+                <p class="text-cream-700 text-[10px] sm:text-xs" data-ar="متجر عصري بهوية رقمية سودانية معاصرة" data-en="A modern store with a contemporary Sudanese digital identity">متجر عصري بهوية رقمية سودانية معاصرة</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== FLOATING WHATSAPP ===== -->
+    <a href="https://wa.me/249XXXXXXXXX" target="_blank" class="whatsapp-float fixed bottom-4 sm:bottom-6 left-4 sm:left-6 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-xl transition-all">
+        <iconify-icon icon="ic:baseline-whatsapp" width="26" class="sm:hidden text-white"></iconify-icon>
+        <iconify-icon icon="ic:baseline-whatsapp" width="30" class="hidden sm:inline-block text-white"></iconify-icon>
+    </a>
+
+    <!-- ===== ALL POPUPS ===== -->
+
+    <!-- JOIN POPUP -->
+    <div id="joinPopup" class="popup-overlay fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4" onclick="if(event.target===this)closePopup('joinPopup')">
+        <div class="absolute inset-0 bg-sand-900 bg-opacity-60 backdrop-blur-sm"></div>
+        <div class="popup-content relative bg-cream-100 rounded-2xl sm:rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-sand-300 border-opacity-20">
+            <div class="bg-gradient-to-l from-sand-500 to-sand-600 rounded-t-2xl sm:rounded-t-3xl p-5 sm:p-6">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-cream-100 text-lg sm:text-xl font-bold" data-ar="انضم كبائع على V7 STORE" data-en="Join as a Seller on V7 STORE">انضم كبائع على V7 STORE</h3>
+                    <button onclick="closePopup('joinPopup')" class="text-cream-300 hover:text-cream-100 transition-colors"><iconify-icon icon="solar:close-circle-bold" width="26"></iconify-icon></button>
+                </div>
+                <p class="text-cream-300 text-xs sm:text-sm mt-1.5" data-ar="ثلاث خطوات فقط وتكون جاهز!" data-en="Just three steps and you're ready!">ثلاث خطوات فقط وتكون جاهز!</p>
+            </div>
+            <div class="p-5 sm:p-6 space-y-4 sm:space-y-5">
+                <div class="flex gap-3 sm:gap-4 items-start"><div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-sand-300 bg-opacity-15 flex items-center justify-center flex-shrink-0 mt-0.5"><span class="text-sand-500 font-black text-xs sm:text-sm">1</span></div><div><h4 class="font-bold text-sand-900 text-xs sm:text-sm" data-ar="تواصل معنا على واتساب" data-en="Contact us on WhatsApp">تواصل معنا على واتساب</h4><p class="text-sand-600 text-[10px] sm:text-xs mt-1" data-ar="ابعت رسالة لخدمة العملاء وحدّثنا عن نوع منتجاتك" data-en="Send a message to customer service and tell us about your product type">ابعت رسالة لخدمة العملاء وحدّثنا عن نوع منتجاتك</p></div></div>
+                <div class="flex gap-3 sm:gap-4 items-start"><div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-sand-300 bg-opacity-15 flex items-center justify-center flex-shrink-0 mt-0.5"><span class="text-sand-500 font-black text-xs sm:text-sm">2</span></div><div><h4 class="font-bold text-sand-900 text-xs sm:text-sm" data-ar="أرسل صور وتفاصيل منتجاتك" data-en="Send photos and product details">أرسل صور وتفاصيل منتجاتك</h4><p class="text-sand-600 text-[10px] sm:text-xs mt-1" data-ar="صور واضحة وأسعار ووصف لكل منتج" data-en="Clear photos, prices, and description for each product">صور واضحة وأسعار ووصف لكل منتج</p></div></div>
+                <div class="flex gap-3 sm:gap-4 items-start"><div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-sand-300 bg-opacity-15 flex items-center justify-center flex-shrink-0 mt-0.5"><span class="text-sand-500 font-black text-xs sm:text-sm">3</span></div><div><h4 class="font-bold text-sand-900 text-xs sm:text-sm" data-ar="استقبل طلباتك وابدأ البيع" data-en="Receive orders and start selling">استقبل طلباتك وابدأ البيع</h4><p class="text-sand-600 text-[10px] sm:text-xs mt-1" data-ar="منتجاتك تتنزل على المنصة وتبدأ تصل لآلاف المتسوقين" data-en="Your products go live and reach thousands of shoppers">منتجاتك تتنزل على المنصة وتبدأ تصل لآلاف المتسوقين</p></div></div>
+                <div class="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+                    <p class="text-green-800 text-xs sm:text-sm font-bold mb-2" data-ar="💡 الاشتراك مجاني تمامًا بدون أي رسوم" data-en="💡 Registration is completely free with no fees">💡 الاشتراك مجاني تمامًا بدون أي رسوم</p>
+                    <button onclick="closePopup('joinPopup');openPopup('contactPopup')" class="bg-green-600 hover:bg-green-700 text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2 sm:py-2.5 rounded-xl transition-all inline-flex items-center gap-2"><iconify-icon icon="ic:baseline-whatsapp" width="16"></iconify-icon><span data-ar="تواصل الآن" data-en="Contact Now">تواصل الآن</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELIVERY POPUP -->
+    <div id="deliveryPopup" class="popup-overlay fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4" onclick="if(event.target===this)closePopup('deliveryPopup')">
+        <div class="absolute inset-0 bg-sand-900 bg-opacity-60 backdrop-blur-sm"></div>
+        <div class="popup-content relative bg-cream-100 rounded-2xl sm:rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-sand-300 border-opacity-20">
+            <div class="bg-gradient-to-l from-orange-500 to-orange-600 rounded-t-2xl sm:rounded-t-3xl p-5 sm:p-6">
+                <div class="flex items-center justify-between"><h3 class="text-cream-100 text-lg sm:text-xl font-bold" data-ar="فرص عمل الدليفري" data-en="Delivery Job Opportunities">فرص عمل الدليفري</h3><button onclick="closePopup('deliveryPopup')" class="text-cream-300 hover:text-cream-100 transition-colors"><iconify-icon icon="solar:close-circle-bold" width="26"></iconify-icon></button></div>
+                <p class="text-cream-300 text-xs sm:text-sm mt-1.5" data-ar="افتح باب الرزق الحلال مع V7 STORE" data-en="Open the door to halal earning with V7 STORE">افتح باب الرزق الحلال مع V7 STORE</p>
+            </div>
+            <div class="p-5 sm:p-6 space-y-3 sm:space-y-4">
+                <div class="bg-white rounded-xl p-4 border border-sand-300 border-opacity-10"><div class="flex items-center gap-2 sm:gap-3 mb-1.5"><iconify-icon icon="solar:money-bag-bold-duotone" width="22" class="text-green-500"></iconify-icon><span class="font-bold text-sand-900 text-xs sm:text-sm" data-ar="دخل مستدام" data-en="Sustainable Income">دخل مستدام</span></div><p class="text-sand-600 text-[10px] sm:text-xs" data-ar="اكسب دخل يومي من توصيل الطلبات للعملاء في منطقتك" data-en="Earn daily income from delivering orders to customers in your area">اكسب دخل يومي من توصيل الطلبات للعملاء في منطقتك</p></div>
+                <div class="bg-white rounded-xl p-4 border border-sand-300 border-opacity-10"><div class="flex items-center gap-2 sm:gap-3 mb-1.5"><iconify-icon icon="solar:clock-circle-bold-duotone" width="22" class="text-blue-500"></iconify-icon><span class="font-bold text-sand-900 text-xs sm:text-sm" data-ar="وقت مرن" data-en="Flexible Hours">وقت مرن</span></div><p class="text-sand-600 text-[10px] sm:text-xs" data-ar="اعمل بالوقت اللي يناسبك بدون التزام بساعات محددة" data-en="Work at your preferred time without fixed hour commitments">اعمل بالوقت اللي يناسبك بدون التزام بساعات محددة</p></div>
+                <div class="bg-white rounded-xl p-4 border border-sand-300 border-opacity-10"><div class="flex items-center gap-2 sm:gap-3 mb-1.5"><iconify-icon icon="solar:map-point-bold-duotone" width="22" class="text-red-500"></iconify-icon><span class="font-bold text-sand-900 text-xs sm:text-sm" data-ar="مناطق متعددة" data-en="Multiple Areas">مناطق متعددة</span></div><p class="text-sand-600 text-[10px] sm:text-xs" data-ar="غطِّ مناطق مختلفة ووسّع نطاق عملك" data-en="Cover different areas and expand your work scope">غطِّ مناطق مختلفة ووسّع نطاق عملك</p></div>
+                <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 text-center"><p class="text-orange-800 text-xs sm:text-sm font-bold mb-2" data-ar="🚲 متوفر لجميع محافظات السودان" data-en="🚲 Available for all Sudanese states">🚲 متوفر لجميع محافظات السودان</p><button onclick="closePopup('deliveryPopup');openPopup('contactPopup')" class="bg-green-600 hover:bg-green-700 text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2 sm:py-2.5 rounded-xl transition-all inline-flex items-center gap-2"><iconify-icon icon="ic:baseline-whatsapp" width="16"></iconify-icon><span data-ar="قدّم الآن" data-en="Apply Now">قدّم الآن</span></button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT POPUP -->
+    <div id="aboutPopup" class="popup-overlay fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4" onclick="if(event.target===this)closePopup('aboutPopup')">
+        <div class="absolute inset-0 bg-sand-900 bg-opacity-60 backdrop-blur-sm"></div>
+        <div class="popup-content relative bg-cream-100 rounded-2xl sm:rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-sand-300 border-opacity-20">
+            <div class="bg-gradient-to-l from-sand-500 to-sand-700 rounded-t-2xl sm:rounded-t-3xl p-5 sm:p-6"><div class="flex items-center justify-between"><h3 class="text-cream-100 text-lg sm:text-xl font-bold" data-ar="عن V7 STORE" data-en="About V7 STORE">عن V7 STORE</h3><button onclick="closePopup('aboutPopup')" class="text-cream-300 hover:text-cream-100 transition-colors"><iconify-icon icon="solar:close-circle-bold" width="26"></iconify-icon></button></div></div>
+            <div class="p-5 sm:p-6 space-y-3 sm:space-y-4">
+                <p class="text-sand-700 text-xs sm:text-sm leading-relaxed" data-ar="V7 STORE هي منصة تجارة إلكترونية سودانية انطلقت من إيمان عميق بأن كل منتج سوداني يستحق فرصة للظهور، وكل شخص عنده طموح تجاري يستحق منصة تدعمه." data-en="V7 STORE is a Sudanese e-commerce platform born from a deep belief that every Sudanese product deserves a chance to shine, and every person with commercial ambition deserves a supporting platform.">V7 STORE هي منصة تجارة إلكترونية سودانية انطلقت من إيمان عميق بأن كل منتج سوداني يستحق فرصة للظهور، وكل شخص عنده طموح تجاري يستحق منصة تدعمه.</p>
+                <p class="text-sand-700 text-xs sm:text-sm leading-relaxed" data-ar="نحن ندرك التحديات اللي بيواجهها أصحاب المنتجات في السودان: غياب البنية التحتية الرقمية، صعوبة الوصول للإنترنت، وعدم وجود منصات محلية تدعم التجارة الإلكترونية بشكل فعلي." data-en="We understand the challenges faced by product owners in Sudan: absence of digital infrastructure, difficulty accessing the internet, and lack of local platforms that effectively support e-commerce.">نحن ندرك التحديات اللي بيواجهها أصحاب المنتجات في السودان: غياب البنية التحتية الرقمية، صعوبة الوصول للإنترنت، وعدم وجود منصات محلية تدعم التجارة الإلكترونية بشكل فعلي.</p>
+                <p class="text-sand-700 text-xs sm:text-sm leading-relaxed" data-ar="من هنا جاءت فكرة V7 STORE - منصة مجانية بالكامل تفتح أبواب التجارة الإلكترونية للجميع: السيدات والشباب وأصحاب المحلات والحرفيين والمنتجين." data-en="That's where V7 STORE came from - a completely free platform that opens e-commerce doors for everyone: women, youth, shop owners, artisans, and producers.">من هنا جاءت فكرة V7 STORE - منصة مجانية بالكامل تفتح أبواب التجارة الإلكترونية للجميع: السيدات والشباب وأصحاب المحلات والحرفيين والمنتجين.</p>
+                <div class="bg-sand-300 bg-opacity-10 rounded-xl p-4 border border-sand-300 border-opacity-20"><p class="text-sand-700 text-xs sm:text-sm font-bold text-center" data-ar="🌟 رؤيتنا: سودان رقمي يفتخر بمنتجاته ويوصلها للعالم" data-en="🌟 Our Vision: A digital Sudan proud of its products, reaching the world">🌟 رؤيتنا: سودان رقمي يفتخر بمنتجاته ويوصلها للعالم</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ POPUP -->
+    <div id="faqPopup" class="popup-overlay fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4" onclick="if(event.target===this)closePopup('faqPopup')">
+        <div class="absolute inset-0 bg-sand-900 bg-opacity-60 backdrop-blur-sm"></div>
+        <div class="popup-content relative bg-cream-100 rounded-2xl sm:rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-sand-300 border-opacity-20">
+            <div class="bg-gradient-to-l from-sand-400 to-sand-600 rounded-t-2xl sm:rounded-t-3xl p-5 sm:p-6"><div class="flex items-center justify-between"><h3 class="text-cream-100 text-lg sm:text-xl font-bold" data-ar="الأسئلة الشائعة" data-en="Frequently Asked Questions">الأسئلة الشائعة</h3><button onclick="closePopup('faqPopup')" class="text-cream-300 hover:text-cream-100 transition-colors"><iconify-icon icon="solar:close-circle-bold" width="26"></iconify-icon></button></div></div>
+            <div class="p-5 sm:p-6 space-y-3" id="faqList"></div>
+        </div>
+    </div>
+
+    <!-- CONTACT POPUP -->
+    <div id="contactPopup" class="popup-overlay fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4" onclick="if(event.target===this)closePopup('contactPopup')">
+        <div class="absolute inset-0 bg-sand-900 bg-opacity-60 backdrop-blur-sm"></div>
+        <div class="popup-content relative bg-cream-100 rounded-2xl sm:rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-sand-300 border-opacity-20">
+            <div class="bg-gradient-to-l from-green-600 to-green-700 rounded-t-2xl sm:rounded-t-3xl p-5 sm:p-6"><div class="flex items-center justify-between"><h3 class="text-cream-100 text-lg sm:text-xl font-bold" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</h3><button onclick="closePopup('contactPopup')" class="text-cream-300 hover:text-cream-100 transition-colors"><iconify-icon icon="solar:close-circle-bold" width="26"></iconify-icon></button></div><p class="text-green-100 text-xs sm:text-sm mt-1.5" data-ar="نحن هنا لمساعدتك في أي وقت" data-en="We're here to help you anytime">نحن هنا لمساعدتك في أي وقت</p></div>
+            <div class="p-5 sm:p-6 space-y-3 sm:space-y-4">
+                <div class="bg-white rounded-xl p-4 sm:p-5 border border-green-200 text-center">
+                    <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4"><iconify-icon icon="ic:baseline-whatsapp" width="32" class="text-green-600"></iconify-icon></div>
+                    <p class="text-sand-900 font-bold text-sm mb-1" data-ar="خدمة العملاء" data-en="Customer Service">خدمة العملاء</p>
+                    <p class="text-sand-600 text-xs mb-3 sm:mb-4" data-ar="ابعت لنا على واتساب وسنرد عليك في أقرب وقت" data-en="Message us on WhatsApp and we'll respond as soon as possible">ابعت لنا على واتساب وسنرد عليك في أقرب وقت</p>
+                    <div class="space-y-2">
+                        <input type="text" id="waName" placeholder="الاسم" class="w-full bg-cream-100 border border-sand-300 border-opacity-30 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-sand-900 placeholder-sand-400 focus:outline-none focus:border-sand-300 transition-colors" data-placeholder-ar="الاسم" data-placeholder-en="Name">
+                        <input type="text" id="waMsg" placeholder="رسالتك..." class="w-full bg-cream-100 border border-sand-300 border-opacity-30 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-sand-900 placeholder-sand-400 focus:outline-none focus:border-sand-300 transition-colors" data-placeholder-ar="رسالتك..." data-placeholder-en="Your message...">
+                        <button onclick="sendWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold text-xs sm:text-sm py-2.5 sm:py-3.5 rounded-xl transition-all flex items-center justify-center gap-2"><iconify-icon icon="ic:baseline-whatsapp" width="18"></iconify-icon><span data-ar="أرسل عبر واتساب" data-en="Send via WhatsApp">أرسل عبر واتساب</span></button>
+                    </div>
+                </div>
+                <p class="text-sand-400 text-[10px] sm:text-xs text-center" data-ar="⚠️ استبدل رقم الواتساب في الكود برقم خدمة العملاء الفعلي" data-en="⚠️ Replace the WhatsApp number in the code with the actual customer service number">⚠️ استبدل رقم الواتساب في الكود برقم خدمة العملاء الفعلي</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE MENU POPUP -->
+    <div id="mobileMenu" class="popup-overlay fixed inset-0 z-[100] flex items-start justify-end p-0" onclick="if(event.target===this)closePopup('mobileMenu')">
+        <div class="absolute inset-0 bg-sand-900 bg-opacity-50 backdrop-blur-sm"></div>
+        <div class="popup-content relative bg-cream-100 w-72 h-full shadow-2xl flex flex-col" style="transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)">
+            <div class="bg-gradient-to-l from-sand-500 to-sand-600 p-5 flex items-center justify-between">
+                <span class="text-cream-100 font-bold text-base" data-ar="القائمة" data-en="Menu">القائمة</span>
+                <button onclick="closePopup('mobileMenu')" class="text-cream-300 hover:text-cream-100"><iconify-icon icon="solar:close-circle-bold" width="26"></iconify-icon></button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4 space-y-1">
+                <a href="#features" onclick="closePopup('mobileMenu')" class="block text-sand-800 hover:bg-sand-300 hover:bg-opacity-10 rounded-xl px-4 py-3 text-sm font-medium transition-colors" data-ar="المميزات" data-en="Features">المميزات</a>
+                <a href="#support" onclick="closePopup('mobileMenu')" class="block text-sand-800 hover:bg-sand-300 hover:bg-opacity-10 rounded-xl px-4 py-3 text-sm font-medium transition-colors" data-ar="من ندعم" data-en="Who We Support">من ندعم</a>
+                <a href="#products" onclick="closePopup('mobileMenu')" class="block text-sand-800 hover:bg-sand-300 hover:bg-opacity-10 rounded-xl px-4 py-3 text-sm font-medium transition-colors" data-ar="المنتجات" data-en="Products">المنتجات</a>
+                <a href="#howto" onclick="closePopup('mobileMenu')" class="block text-sand-800 hover:bg-sand-300 hover:bg-opacity-10 rounded-xl px-4 py-3 text-sm font-medium transition-colors" data-ar="كيف تبدأ" data-en="How to Start">كيف تبدأ</a>
+                <a href="#testimonials" onclick="closePopup('mobileMenu')" class="block text-sand-800 hover:bg-sand-300 hover:bg-opacity-10 rounded-xl px-4 py-3 text-sm font-medium transition-colors" data-ar="آراء العملاء" data-en="Testimonials">آراء العملاء</a>
+                <a href="#motivate" onclick="closePopup('mobileMenu')" class="block text-sand-800 hover:bg-sand-300 hover:bg-opacity-10 rounded-xl px-4 py-3 text-sm font-medium transition-colors" data-ar="رسائلنا" data-en="Messages">رسائلنا</a>
+                <div class="border-t border-sand-300 border-opacity-15 my-3"></div>
+                <button onclick="closePopup('mobileMenu');openPopup('joinPopup')" class="block w-full text-right text-sand-800 hover:bg-sand-300 hover:bg-opacity-10 rounded-xl px-4 py-3 text-sm font-medium transition-colors" data-ar="انضم كبائع" data-en="Join as Seller">انضم كبائع</button>
+                <button onclick="closePopup('mobileMenu');openPopup('deliveryPopup')" class="block w-full text-right text-sand-800 hover:bg-sand-300 hover:bg-opacity-10 rounded-xl px-4 py-3 text-sm font-medium transition-colors" data-ar="فرص توصيل" data-en="Delivery Jobs">فرص توصيل</button>
+                <button onclick="closePopup('mobileMenu');openPopup('faqPopup')" class="block w-full text-right text-sand-800 hover:bg-sand-300 hover:bg-opacity-10 rounded-xl px-4 py-3 text-sm font-medium transition-colors" data-ar="أسئلة شائعة" data-en="FAQ">أسئلة شائعة</button>
+                <button onclick="closePopup('mobileMenu');openPopup('aboutPopup')" class="block w-full text-right text-sand-800 hover:bg-sand-300 hover:bg-opacity-10 rounded-xl px-4 py-3 text-sm font-medium transition-colors" data-ar="عن المتجر" data-en="About">عن المتجر</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // Language
+        let currentLang='ar';
+        function toggleLang(){
+            currentLang=currentLang==='ar'?'en':'ar';
+            document.documentElement.lang=currentLang;
+            document.documentElement.dir=currentLang==='ar'?'rtl':'ltr';
+            document.getElementById('langBtn').textContent=currentLang==='ar'?'EN':'عربي';
+            document.querySelectorAll('[data-ar][data-en]').forEach(el=>{
+                if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')return;
+                el.textContent=el.getAttribute('data-'+currentLang);
+            });
+            document.querySelectorAll('[data-placeholder-ar][data-placeholder-en]').forEach(el=>{
+                el.placeholder=el.getAttribute('data-placeholder-'+currentLang);
+            });
+            renderMessage(currentMsg);
+            renderFAQ();
+        }
+
+        // Popups
+        function openPopup(id){
+            const p=document.getElementById(id);
+            p.classList.remove('hidden');
+            requestAnimationFrame(()=>p.classList.add('active'));
+            document.body.style.overflow='hidden';
+            if(id==='mobileMenu'){
+                const c=p.querySelector('.popup-content');
+                setTimeout(()=>c.style.transform='translateX(0)',10);
+            }
+        }
+        function closePopup(id){
+            const p=document.getElementById(id);
+            p.classList.remove('active');
+            if(id==='mobileMenu'){
+                const c=p.querySelector('.popup-content');
+                c.style.transform='translateX(100%)';
+            }
+            setTimeout(()=>{p.classList.add('hidden');document.body.style.overflow=''},400);
+        }
+        document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.popup-overlay.active').forEach(p=>closePopup(p.id))});
+
+        // WhatsApp
+        function sendWhatsApp(){
+            const n=document.getElementById('waName').value||'';
+            const m=document.getElementById('waMsg').value||'';
+            window.open('https://wa.me/249XXXXXXXXX?text='+encodeURIComponent('مرحبًا، اسمي: '+n+'\n'+m),'_blank');
+        }
+
+        // Nav scroll
+        const nav=document.getElementById('mainNav');
+        window.addEventListener('scroll',()=>{nav.classList.toggle('nav-scrolled',window.scrollY>60)},{passive:true});
+
+        // Scroll animations
+        const sObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+        document.querySelectorAll('.scroll-anim').forEach(el=>sObs.observe(el));
+
+        // Counters
+        const cObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const el=e.target,t=parseInt(el.dataset.target);if(!t)return;let c=0;const inc=Math.ceil(t/60);const timer=setInterval(()=>{c+=inc;if(c>=t){c=t;clearInterval(timer)}el.textContent=c+'+'},30);cObs.unobserve(el)}})},{threshold:0.5});
+        document.querySelectorAll('.counter-num[data-target]').forEach(el=>cObs.observe(el));
+
+        // Messages
+        const messages=[
+            {ar:'كل منتج سوداني يستحق أن يصل لكل بيت.. ونحن الجسر اللي بيوصله',en:'Every Sudanese product deserves to reach every home.. and we are the bridge that delivers it'},
+            {ar:'البداية من هنا.. والمستقبل بيدك. لا تنتظر أحد يفتحلك الباب، انت اللي بتفتحو',en:'The start is here.. the future is in your hands. Don\'t wait for someone to open the door, you open it'},
+            {ar:'لسيداتٍ يصنعن الفارق بصناعتهن.. منصتنا بتكون صوتكن للعالم',en:'For women making a difference with their craft.. our platform will be your voice to the world'},
+            {ar:'لشبابٍ يرون فرصًا حيث يرى الآخرون تحديات.. V7 STORE هي فرصتكم',en:'For youth who see opportunities where others see challenges.. V7 STORE is your opportunity'},
+            {ar:'التجارة مش حكر على حد.. كل شخص عنده منتج يقدر يكون تاجر ناجح',en:'Trade is not exclusive to anyone.. every person with a product can be a successful merchant'},
+            {ar:'من السودان.. بإنتاج سوداني.. بحب سوداني.. للعالم أجمع',en:'From Sudan.. with Sudanese production.. with Sudanese love.. to the whole world'},
+            {ar:'ما تحتاج رأس مال كبير.. تحتاج فقط منصة تقدر تعرض عليها. وهذي منصتك',en:'You don\'t need big capital.. you just need a platform to showcase on. And this is your platform'},
+        ];
+        let currentMsg=0;
+        const msgC=document.getElementById('messageContainer');
+        const msgD=document.getElementById('messageDots');
+        function renderMessage(i){
+            msgC.innerHTML='<p class="message-item text-cream-100 text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-relaxed">'+messages[i][currentLang]+'</p>';
+            msgD.innerHTML=messages.map((_,j)=>'<button onclick="goToMsg('+j+')" class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 '+(j===i?'bg-sand-300 w-6 sm:w-8':'bg-sand-700 hover:bg-sand-500')+'"></button>').join('');
+        }
+        function goToMsg(i){currentMsg=i;renderMessage(i)}
+        renderMessage(0);
+        setInterval(()=>{currentMsg=(currentMsg+1)%messages.length;renderMessage(currentMsg)},5000);
+
+        // FAQ
+        const faqs=[
+            {q:{ar:'هل الاشتراك في V7 STORE مجاني فعلاً؟',en:'Is V7 STORE registration really free?'},a:{ar:'نعم، الاشتراك مجاني تمامًا بدون أي رسوم خفية أو اشتراكات شهرية. يمكنك عرض منتجاتك مجانًا.',en:'Yes, registration is completely free with no hidden fees or monthly subscriptions. You can list your products for free.'}},
+            {q:{ar:'كيف يتم التوصيل؟',en:'How does delivery work?'},a:{ar:'خدمة التوصيل بيوفرها صاحب المنتج نفسه، مما يضمن سرعة وموثوقية عملية التوصيل.',en:'Delivery service is provided by the product owner, ensuring fast and reliable delivery.'}},
+            {q:{ar:'هل يمكنني الانضمام إذا لم يكن لدي محل؟',en:'Can I join if I don\'t have a shop?'},a:{ar:'طبعًا! هذا هو هدفنا الأساسي. لا تحتاج محل أو موقع أو حتى حساب على السوشيال ميديا.',en:'Of course! That\'s our main goal. You don\'t need a shop, website, or even a social media account.'}},
+            {q:{ar:'كيف أتواصل معكم للتسجيل؟',en:'How do I contact you to register?'},a:{ar:'كل ما عليك هو التواصل معنا عبر واتساب وإرسال تفاصيل منتجاتك وسنساعدك في الباقي.',en:'Just contact us via WhatsApp with your product details and we\'ll help you with the rest.'}},
+            {q:{ar:'هل يمكنني العمل كمندوب توصيل؟',en:'Can I work as a delivery agent?'},a:{ar:'نعم! نفتح باب الوظايف لعمال الدليفري. تواصل معنا على واتساب لتقدّم.',en:'Yes! We open job opportunities for delivery workers. Contact us on WhatsApp to apply.'}},
+            {q:{ar:'هل المنصة تصل للسودانيين خارج السودان؟',en:'Does the platform reach Sudanese outside Sudan?'},a:{ar:'نعم، منصتنا مصممة لتخدم السودانيين في كل مكان بالعالم.',en:'Yes, our platform is designed to serve Sudanese everywhere in the world.'}},
+        ];
+        function renderFAQ(){
+            document.getElementById('faqList').innerHTML=faqs.map((f,i)=>'<div class="bg-white rounded-xl border border-sand-300 border-opacity-10 overflow-hidden"><button onclick="toggleFaq('+i+')" class="w-full flex items-center justify-between p-3 sm:p-4 text-right"><span class="font-bold text-sand-900 text-xs sm:text-sm">'+f.q[currentLang]+'</span><iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="text-sand-400 transition-transform duration-300 faq-icon-'+i+'"></iconify-icon></button><div class="faq-body-'+i+' overflow-hidden transition-all duration-300" style="max-height:0"><p class="text-sand-600 text-[10px] sm:text-xs leading-relaxed px-3 sm:px-4 pb-3 sm:pb-4">'+f.a[currentLang]+'</p></div></div>').join('');
+        }
+        function toggleFaq(i){
+            const b=document.querySelector('.faq-body-'+i);
+            const ic=document.querySelector('.faq-icon-'+i);
+            if(b.style.maxHeight==='0px'){b.style.maxHeight=b.scrollHeight+'px';ic.style.transform='rotate(180deg)'}
+            else{b.style.maxHeight='0px';ic.style.transform='rotate(0)'}
+        }
+        renderFAQ();
+
+        // Re-render on lang change
+        const origToggle=toggleLang;
+        toggleLang=function(){origToggle()};
+    </script>
+
+</body>
+</html>
